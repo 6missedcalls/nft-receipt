@@ -14,7 +14,7 @@ contract NFTReceipt is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnabl
   Counters.Counter private _tokenIds;
   NFTOracle public nftOracle;
 
-  constructor(address _nftOracle) ERC721("NFT Receipt", "NFTRECEIPT") {
+  constructor(address _nftOracle) ERC721("NFT Receipt", "RECEIPT") {
     nftOracle = NFTOracle(_nftOracle);
   }
 
@@ -67,4 +67,4 @@ contract NFTReceipt is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnabl
         return super.supportsInterface(interfaceId);
     }
 }
-  
+

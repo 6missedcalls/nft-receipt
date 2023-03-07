@@ -6,20 +6,31 @@
 // global scope, and execute the script.
 const hre = require("hardhat");
 
+async function deployOracle() {
+  const Oracle = await hre.ethers.getContractFactory("nft-oracle");
+  const oracleDeployment = await Oracle.deploy();
+  await oracleDeployment.deployed();
+
+  const oracle = oracleDeployment.address;
+  return oracle;
+}
+
+async function deployNft(address) {
+  const nftContract = await hre.ethers.getContractFactory("nft-receipt");
+  const deployedNft = await nftContract.deploy(address);
+  await deployedNft.deployed();
+
+  const nft = deployedNft.address;
+  return nft;
+
+}
+
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
-
-  const lockedAmount = hre.ethers.utils.parseEther("1");
-
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
-
-  await lock.deployed();
+  let oracle = deployOracle();
+  let nft = deployNft(oracle);
 
   console.log(
-    `Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
+    `Oracle ${oracle} | NFT ${nft}`
   );
 }
 

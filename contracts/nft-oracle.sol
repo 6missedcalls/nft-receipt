@@ -31,12 +31,12 @@ contract NFTOracle {
   }
 
   function readReceipt(address _owner, uint256 _index) public view returns (Receipt memory) {
-    require(msg.sender == _owner, "You are not the owner of this receipt");
+    require(msg.sender == _owner, "Error: You are not the owner of this receipt");
     return receipts[_owner][_index];
   }
 
   function updateReceipt(address _owner, uint256 _index, string memory _name, string memory _description, string memory _imageURI) public {
-    require(msg.sender == _owner || msg.sender == receipts[_owner][_index].seller, "You are not the owner or seller of this receipt");
+    require(msg.sender == _owner || msg.sender == receipts[_owner][_index].seller, "Error: You are not the owner or seller of this receipt");
     Receipt storage receipt = receipts[_owner][_index];
     receipt.name = _name;
     receipt.description = _description;
@@ -44,12 +44,12 @@ contract NFTOracle {
   }
 
   function deleteReceipt(address _owner, uint256 _index) public {
-    require(msg.sender == _owner || msg.sender == receipts[_owner][_index].seller, "You are not the owner or seller of this receipt");
+    require(msg.sender == _owner || msg.sender == receipts[_owner][_index].seller, "Error: You are not the owner or seller of this receipt");
     delete receipts[_owner][_index];
   }
 
   function getReceiptsLength(address _owner) public view returns (uint256) {
-    require(msg.sender == _owner, "You are not the owner of this receipt");
+    require(msg.sender == _owner, "Error: You are not the owner of this receipt");
     return receipts[_owner].length;
   }
 
